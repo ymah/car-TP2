@@ -13,7 +13,7 @@ La declaration se fait en utilisant l'instruction suivante :
 
 	serviceBeans.add(new _classe_de_la_ressource());
 	par exemple serviceBeans.add(new HelloWorldResource());
-	
+
 Autant de ressources que necessaire peuvent etre declarees.
 
 Le lancement du framework se fait en invoquant la methode Main de la classe
@@ -24,10 +24,6 @@ navigateur, en chargeant une URL de la forme ;
 
 	http://localhost:8080/rest/api/_ressource_
 	par exemple http://localhost:8080/rest/api/helloworld
-	
-
-Lionel Seinturier.
-13 juin 2014.
 
 
-[1] http://aredko.blogspot.fr/2013/01/going-rest-embedding-jetty-with-spring.html
+
