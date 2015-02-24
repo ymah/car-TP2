@@ -20,41 +20,44 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 @Configuration
-public class AppConfig {	
-	@Bean( destroyMethod = "shutdown" )
+public class AppConfig {
+	@Bean(destroyMethod = "shutdown")
 	public SpringBus cxf() {
 		return new SpringBus();
 	}
-	
-	@Bean @DependsOn( "cxf" )
+
+	@Bean
+	@DependsOn("cxf")
 	public Server jaxRsServer() {
-		JAXRSServerFactoryBean factory = RuntimeDelegate.getInstance().createEndpoint( jaxRsApiApplication(), JAXRSServerFactoryBean.class );
-		
+		JAXRSServerFactoryBean factory = RuntimeDelegate.getInstance()
+				.createEndpoint(jaxRsApiApplication(),
+						JAXRSServerFactoryBean.class);
+
 		List<Object> serviceBeans = new ArrayList<Object>();
-//		serviceBeans.add(peopleRestService());
+		// serviceBeans.add(peopleRestService());
 		serviceBeans.add(new HelloWorldResource());
-		
+
 		factory.setServiceBeans(serviceBeans);
-		factory.setAddress( "/" + factory.getAddress() );
-		factory.setProviders( Arrays.< Object >asList( jsonProvider() ) );
+		factory.setAddress("/" + factory.getAddress());
+		factory.setProviders(Arrays.<Object> asList(jsonProvider()));
 		return factory.create();
 	}
-	
-	@Bean 
+
+	@Bean
 	public JaxRsApiApplication jaxRsApiApplication() {
 		return new JaxRsApiApplication();
 	}
-	
-	@Bean 
+
+	@Bean
 	public PeopleRestService peopleRestService() {
 		return new PeopleRestService();
 	}
-	
-	@Bean 
+
+	@Bean
 	public PeopleService peopleService() {
 		return new PeopleService();
 	}
-		
+
 	@Bean
 	public JacksonJsonProvider jsonProvider() {
 		return new JacksonJsonProvider();
