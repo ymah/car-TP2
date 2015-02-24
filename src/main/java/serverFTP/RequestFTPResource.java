@@ -7,11 +7,15 @@ import javax.ws.rs.Path;
 @Path("/serverFTP")
 public class RequestFTPResource {
 
+	private RequestFTP ftp;
+	
+	
+	
 	
 	/**
-	 * getLs : retourne la liste des fichiers pour un compte
+	 *  : retourne la liste des fichiers pour un compte
 	 * 
 	 */
-
+	
 	
 }
