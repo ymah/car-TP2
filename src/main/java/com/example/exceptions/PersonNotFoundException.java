@@ -1,4 +1,4 @@
-package com.example.exceptions;
+package main.java.com.example.exceptions;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;

@@ -1,4 +1,4 @@
-package com.example.services;
+package main.java.com.example.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,11 +6,11 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.springframework.stereotype.Service;
+import main.java.com.example.exceptions.PersonAlreadyExistsException;
+import main.java.com.example.exceptions.PersonNotFoundException;
+import main.java.com.example.model.Person;
 
-import com.example.exceptions.PersonAlreadyExistsException;
-import com.example.exceptions.PersonNotFoundException;
-import com.example.model.Person;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PeopleService {

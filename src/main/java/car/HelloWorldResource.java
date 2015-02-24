@@ -1,4 +1,4 @@
-package car;
+package main.java.car;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

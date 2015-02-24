@@ -1,4 +1,4 @@
-package com.example.rs;
+package main.java.com.example.rs;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
