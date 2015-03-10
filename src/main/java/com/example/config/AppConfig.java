@@ -6,10 +6,10 @@ import java.util.List;
 
 import javax.ws.rs.ext.RuntimeDelegate;
 
-import main.java.car.HelloWorldResource;
+import main.java.com.ftpRessource.*;
 import main.java.com.example.rs.JaxRsApiApplication;
-import main.java.com.example.rs.PeopleRestService;
-import main.java.com.example.services.PeopleService;
+
+
 
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.endpoint.Server;
@@ -35,7 +35,7 @@ public class AppConfig {
 
 		List<Object> serviceBeans = new ArrayList<Object>();
 		// serviceBeans.add(peopleRestService());
-		serviceBeans.add(new HelloWorldResource());
+		serviceBeans.add(new RequestFTPResource());
 
 		factory.setServiceBeans(serviceBeans);
 		factory.setAddress("/" + factory.getAddress());
@@ -46,16 +46,6 @@ public class AppConfig {
 	@Bean
 	public JaxRsApiApplication jaxRsApiApplication() {
 		return new JaxRsApiApplication();
-	}
-
-	@Bean
-	public PeopleRestService peopleRestService() {
-		return new PeopleRestService();
-	}
-
-	@Bean
-	public PeopleService peopleService() {
-		return new PeopleService();
 	}
 
 	@Bean

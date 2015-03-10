@@ -109,7 +109,7 @@ public class RequestFTP implements Runnable {
 		case "QUIT":
 			processQuit();
 			break;
-		case "LIST":
+		case "NLST":
 			if(split.length == 1){
 				processList(false);
 			}else if(split.length == 2) {
@@ -211,14 +211,15 @@ public class RequestFTP implements Runnable {
 	 */
 	private void processList(boolean test){
 		int i;
-		String[] liste;
+		String[] liste={"toto"};
 		if(test == true){
 			
 			liste = listerRepertoire(this.current+this.action);
 		}else{
 
-			liste = listerRepertoire(this.current+"/.");
+			liste = listerRepertoire(this.current+".");
 		}
+		System.out.println(liste.toString());
 		send("150 ASCII data connection");
 		for(i=0;i<liste.length;i++){
 			sendData(liste[i]);
@@ -311,8 +312,7 @@ public class RequestFTP implements Runnable {
 	 * processSys : traitement de la commande Sys sur le serveur ftp
 	 */
 	private void processSys() {
-		send("UNIX");
-		send("215");
+		send("215 WINDOWS");
 	}
 	/**
 	 * processPrt : traitement de la commande PORT sur le serveur ftp

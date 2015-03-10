@@ -2,6 +2,7 @@ package main.java.com.ftpRessource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 import main.java.FTPservice.FTPService;
 import main.java.serverFTP.RequestFTP;
@@ -13,7 +14,11 @@ public class RequestFTPResource {
 
 	private FTPService ftp;
 	
-	
+	@GET
+	@Produces("text/html")
+	public String sayHello(){
+		return "<h1>Hello World</h1>";
+	}
 	public RequestFTPResource(){
 		this.ftp = new FTPService();
 	}
@@ -26,6 +31,13 @@ public class RequestFTPResource {
 	@Path("ls")
 	public String ls(){
 		return this.ftp.ls();
+	}
+	
+	
+	@GET
+	@Path("pwd")
+	public String pwd(){
+		return this.ftp.pwd();
 	}
 	
 	
