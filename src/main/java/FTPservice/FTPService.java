@@ -3,6 +3,8 @@ package main.java.FTPservice;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
@@ -53,6 +55,16 @@ public class FTPService {
 		}
 		
 		return "NULL";
+	}
+	
+	public void cd(String dir){
+		try {
+			this.client.cwd(dir);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("erreur");
+		}
+
 	}
 
 }
