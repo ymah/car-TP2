@@ -26,11 +26,12 @@ public class FTPService {
 	public String ls() {
 		// TODO Auto-generated method stub
 		try{
-			FTPFile[] liste = this.client.listFiles();
+			
+			String[] liste = this.client.listNames();
 			System.out.println(liste.length);
 			String res = "";
 			for(int i = 0;i<liste.length;i++)
-				res = res + " "+liste[i].getName();
+				res = res + " "+liste[i];
 			System.out.println("RES----------------------------- "+res);
 			return res;
 
