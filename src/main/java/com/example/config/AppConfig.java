@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.ws.rs.ext.RuntimeDelegate;
 
-import main.java.com.ftpRessource.*;
 import main.java.com.example.rs.JaxRsApiApplication;
-
-
+import main.java.com.ftpRessource.RequestFTPResource;
 
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.endpoint.Server;
