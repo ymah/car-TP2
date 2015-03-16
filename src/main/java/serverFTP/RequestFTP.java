@@ -230,7 +230,7 @@ public class RequestFTP implements Runnable {
 		}else{
 			liste = listerRepertoire(this.current+".");
 		}
-		System.out.println(liste.toString());
+		
 		send("150 ASCII data connection");
 		for(i=0;i<liste.length;i++){
 			res = liste[i].getName();

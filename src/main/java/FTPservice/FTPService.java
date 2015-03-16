@@ -32,10 +32,10 @@ public class FTPService {
 	 * @return String : List of files
 	 */
 	public String ls() {
-		// TODO Auto-generated method stub
 		try{
 
 			String[] liste = this.client.listNames();
+			
 			String res = "";
 			for(int i = 0;i<liste.length;i++)
 				res = res + ",,"+liste[i];
