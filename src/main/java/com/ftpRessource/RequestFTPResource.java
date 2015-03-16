@@ -45,7 +45,6 @@ public class RequestFTPResource {
 		return this.corps();
 	}
 
-
 	private String corps() {
 		String css="<style type=\"text/css\">"+
 				"#home { width: 300px; margin: 0 auto; border-radius: 5px;background-color: #f6f6f6;}"+
@@ -129,17 +128,18 @@ public class RequestFTPResource {
 
 	@GET
 	@Produces("text/html")
-	@Path("/upload/")
+	@Path("upload")
 	public String upload(){
 		return this.formUpload();
 	}
 
 	@POST
 	//@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-	@Path("/uploadFile")
+	@Path("uploadFile")
 	public String up( @FormParam("file") String fichier,
 			@FormParam("name") String name) {
 		this.ftp.stor(fichier, name);
+		//this.ftp.stor(file);
 		return this.corps();
 	}
 
