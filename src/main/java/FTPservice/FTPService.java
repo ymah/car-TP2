@@ -83,12 +83,13 @@ public class FTPService {
 	}
 
 
-	public void get(String filename) throws IOException {
+	public InputStream get(String filename) throws IOException {
 		try {
-			this.client.retrieveFile(filename, ds.getOutputStream());
+			return this.client.retrieveFileStream(filename);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
 	} 
 
 

@@ -149,13 +149,13 @@ public class RequestFTPResource {
 	@GET
 	@Produces(javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM)
 	@Path("/get/{fichier}")
-	public String get(@PathParam("fichier") String fichier){
+	public Response get(@PathParam("fichier") String fichier){
 		try {
-			this.ftp.get(fichier);
+			return javax.ws.rs.core.Response.ok(this.ftp.get(fichier), javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM).build();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return this.corps();
+		return null;
 	}
 
 }
