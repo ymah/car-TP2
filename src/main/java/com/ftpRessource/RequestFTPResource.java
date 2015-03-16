@@ -9,7 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import main.java.FTPservice.FTPService;
-import javax.ws.rs.core.MediaType;
+//import javax.ws.rs.core.MediaType;
 
 
 @Path("/serverFTP")
@@ -32,22 +32,32 @@ public class RequestFTPResource {
 
 
 	private String corps() {
-		String head=FTP_SERVER +"<a href="+BASE_URL+"cdup>cdup</a>"+"<p>"+"path:"+this.ftp.pwd().substring(3)+"</p>"+"<ul>";
+		String css="<style type=\"text/css\">"+
+    "#home { width: 300px; margin: 0 auto; border-radius: 5px;background-color: #f6f6f6;}"+
+    "#related_links { color: #333; padding: 1em; }"+
+    "#cdup { text-decoration: none;}"+
+    "#related_links ul { list-style: none; margin: 0; border: none;}"+
+    "#related_links li {border-bottom: 1px solid #90bade; margin: 0;}"+
+    "#related_links li a {display: block; padding: 5px 5px 5px 0.5em; background-color: #2175bc;color: #fff;text-decoration: none; width: 100%;}"+
+    "html>body #related_links li a { width: auto;}"+
+    "#related_links li a:hover { background-color: #2586d7; color: #fff;}"+
+    "</style>";
+		String head="<div id='home'><div id='related_links'>" + FTP_SERVER +"<a href="+BASE_URL+"cdup>cdup</a>"+"<p>"+"path:"+this.ftp.pwd().substring(3)+"</p>"+"<ul>";
 		String corps="";
 		String[] ls = this.ftp.ls().split(",,");
 		for(String n : ls){
 			System.out.println(n);
 			String[] tmp=n.split(" ");
 			if(tmp.length==2 && tmp[1].equals("-dir-"))
-				corps= corps + "<li>"+"<a href="+BASE_URL+"cd/"+tmp[0]+">"+tmp[0]+"</a>"+"</li>";
+				corps= corps + "<li>"+"<a href="+BASE_URL+"cd/"+tmp[0]+">"+tmp[0]+"/</a>"+"</li>";
 			else
 				corps= corps + "<li>"+"<a href="+BASE_URL+"get/"+tmp[0]+">"+tmp[0]+"</a>"+"</li>";
 		}
 		if(corps.equals("")){
 			corps+="<li>Dossier vide</li>";
 		}
-		corps= corps + "</ul>";
-		return head+corps;
+		corps= corps + "</ul></div></div>";
+		return css+head+corps;
 	}
 	/**
 	 *  : retourne la liste des fichiers pour un compte
@@ -110,44 +120,44 @@ public class RequestFTPResource {
 		return this.formUpload();
 	}
 	
-	@POST
-	@Path("/uploadFile")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadFile(
-		@FormDataParam("file") InputStream uploadedInputStream,
-		@FormDataParam("file") FormDataContentDisposition fileDetail) {
- 
-		String uploadedFileLocation = "d://uploaded/" + fileDetail.getFileName();
- 
-		// save it
-		writeToFile(uploadedInputStream, uploadedFileLocation);
- 
-		String output = "File uploaded to : " + uploadedFileLocation;
- 
-		return Response.status(200).entity(output).build();
- 
-	}
- 
-	// save uploaded file to new location
-	private void writeToFile(InputStream uploadedInputStream,
-		String uploadedFileLocation) {
- 
-		try {
-			OutputStream out = new FileOutputStream(new File(
-					uploadedFileLocation));
-			int read = 0;
-			byte[] bytes = new byte[1024];
- 
-			out = new FileOutputStream(new File(uploadedFileLocation));
-			while ((read = uploadedInputStream.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
-			}
-			out.flush();
-			out.close();
-		} catch (IOException e) {
- 
-			e.printStackTrace();
-		}
- 
-	}
+//	@POST
+//	@Path("/uploadFile")
+//	@Consumes(MediaType.MULTIPART_FORM_DATA)
+//	public Response uploadFile(
+//		@FormDataParam("file") InputStream uploadedInputStream,
+//		@FormDataParam("file") FormDataContentDisposition fileDetail) {
+// 
+//		String uploadedFileLocation = "d://uploaded/" + fileDetail.getFileName();
+// 
+//		// save it
+//		writeToFile(uploadedInputStream, uploadedFileLocation);
+// 
+//		String output = "File uploaded to : " + uploadedFileLocation;
+// 
+//		return Response.status(200).entity(output).build();
+// 
+//	}
+// 
+//	// save uploaded file to new location
+//	private void writeToFile(InputStream uploadedInputStream,
+//		String uploadedFileLocation) {
+// 
+//		try {
+//			OutputStream out = new FileOutputStream(new File(
+//					uploadedFileLocation));
+//			int read = 0;
+//			byte[] bytes = new byte[1024];
+// 
+//			out = new FileOutputStream(new File(uploadedFileLocation));
+//			while ((read = uploadedInputStream.read(bytes)) != -1) {
+//				out.write(bytes, 0, read);
+//			}
+//			out.flush();
+//			out.close();
+//		} catch (IOException e) {
+// 
+//			e.printStackTrace();
+//		}
+// 
+//	}
 }
