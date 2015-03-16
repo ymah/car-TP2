@@ -1,5 +1,7 @@
 package main.java.com.ftpRessource;
 
+import java.awt.PageAttributes.MediaType;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -26,6 +28,7 @@ public class RequestFTPResource {
 	public String presentation(){
 		return this.corps();
 	}
+
 
 	private String corps() {
 		String head=FTP_SERVER +"<a href="+BASE_URL+"cdup>cdup</a>"+"<p>"+"path:"+this.ftp.pwd().substring(3)+"</p>"+"<ul>";
@@ -61,7 +64,7 @@ public class RequestFTPResource {
 
 
 	@GET
-	@Produces("text/html")
+	@Produces()
 	@Path("pwd")
 	public String pwd(){
 		return this.ftp.pwd();
@@ -74,6 +77,70 @@ public class RequestFTPResource {
 		return this.corps();
 	}
 
+	private String formUpload(){
+		String res = "<html>"; 
+		res += "<body>";	
+		res += "<h1>Chargement d'un fichier</h1>";
 
+		res += "<form action=\"rest/api/serverFTP/uploadFile\" method=\"post\" enctype=\"multipart/form-data\">";
 
+		res+="<p>";
+		res+="Selectionner un fichier : <input type=\"file\" name=\"file\" size=\"45\" />";
+		res+="</p>";
+
+		res+="<input type=\"submit\" value=\"Charger\" />";
+		res+="</form>";
+
+		res+="</body>";
+		res+="</html>";
+		return res;
+	}
+	
+	@GET
+	@Produces("text/html")
+	@Path("/upload/")
+	public String upload(){
+		return this.formUpload();
+	}
+	
+	@POST
+	@Path("/uploadFile")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response uploadFile(
+		@FormDataParam("file") InputStream uploadedInputStream,
+		@FormDataParam("file") FormDataContentDisposition fileDetail) {
+ 
+		String uploadedFileLocation = "d://uploaded/" + fileDetail.getFileName();
+ 
+		// save it
+		writeToFile(uploadedInputStream, uploadedFileLocation);
+ 
+		String output = "File uploaded to : " + uploadedFileLocation;
+ 
+		return Response.status(200).entity(output).build();
+ 
+	}
+ 
+	// save uploaded file to new location
+	private void writeToFile(InputStream uploadedInputStream,
+		String uploadedFileLocation) {
+ 
+		try {
+			OutputStream out = new FileOutputStream(new File(
+					uploadedFileLocation));
+			int read = 0;
+			byte[] bytes = new byte[1024];
+ 
+			out = new FileOutputStream(new File(uploadedFileLocation));
+			while ((read = uploadedInputStream.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+ 
+			e.printStackTrace();
+		}
+ 
+	}
 }
