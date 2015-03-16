@@ -1,6 +1,12 @@
 package main.java.FTPservice;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 import org.apache.commons.net.ftp.FTPClient;
@@ -9,8 +15,8 @@ public class FTPService {
 
 	private FTPClient client;
 	private Socket ds;
-	
-	
+
+
 	public FTPService(){
 		this.client = new FTPClient();
 		try{
@@ -24,33 +30,33 @@ public class FTPService {
 	public String ls() {
 		// TODO Auto-generated method stub
 		try{
-			
+
 			String[] liste = this.client.listNames();
 			String res = "";
 			for(int i = 0;i<liste.length;i++)
 				res = res + ",,"+liste[i];
 			return res;
 
-			
+
 		}catch(IOException e){
-			
+
 		}
-		
+
 		return "NULL";
 	}
-	
+
 	public String pwd() {
 		try{
 			this.client.pwd();
 			return this.client.getReplyStrings()[0];
-			
+
 		}catch(IOException e){
-			
+
 		}
-		
+
 		return "NULL";
 	}
-	
+
 	public void cd(String dir){
 		try {
 			this.client.cwd(dir);
@@ -63,8 +69,27 @@ public class FTPService {
 		try{
 			this.client.cdup();			
 		}catch(IOException e){
-			
+
 		}
 	}
+	public void stor(String uploadedInputStream,String name) {
+		try {
+			this.client.storeFile(name,new ByteArrayInputStream(uploadedInputStream.getBytes()));
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	public void get(String filename) throws IOException {
+		try {
+			this.client.retrieveFile(filename, ds.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	} 
+
 
 }

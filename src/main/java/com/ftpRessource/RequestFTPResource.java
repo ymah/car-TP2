@@ -11,10 +11,14 @@ import javax.ws.rs.Produces;
 
 import main.java.FTPservice.FTPService;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import javax.ws.rs.Consumes;
@@ -30,7 +34,6 @@ public class RequestFTPResource {
 	private FTPService ftp;
 	private static final String BASE_URL = "/rest/api/serverFTP/";
 	private static final String FTP_SERVER = "<h1>FTP server</h1>";		
-
 	public RequestFTPResource(){
 		this.ftp = new FTPService();
 	}
@@ -45,20 +48,19 @@ public class RequestFTPResource {
 
 	private String corps() {
 		String css="<style type=\"text/css\">"+
-    "#home { width: 300px; margin: 0 auto; border-radius: 5px;background-color: #f6f6f6;}"+
-    "#related_links { color: #333; padding: 1em; }"+
-    "#cdup { text-decoration: none;}"+
-    "#related_links ul { list-style: none; margin: 0; border: none;}"+
-    "#related_links li {border-bottom: 1px solid #90bade; margin: 0;}"+
-    "#related_links li a {display: block; padding: 5px 5px 5px 0.5em; background-color: #2175bc;color: #fff;text-decoration: none; width: 100%;}"+
-    "html>body #related_links li a { width: auto;}"+
-    "#related_links li a:hover { background-color: #2586d7; color: #fff;}"+
-    "</style>";
-		String head="<div id='home'><div id='related_links'>" + FTP_SERVER +"<a href="+BASE_URL+"cdup>cdup</a>"+"<p>"+"path:"+this.ftp.pwd().substring(3)+"</p>"+"<ul>";
+				"#home { width: 300px; margin: 0 auto; border-radius: 5px;background-color: #f6f6f6;}"+
+				"#related_links { color: #333; padding: 1em; }"+
+				"#cdup { text-decoration: none;}"+
+				"#related_links ul { list-style: none; margin: 0; border: none;}"+
+				"#related_links li {border-bottom: 1px solid #90bade; margin: 0;}"+
+				"#related_links li a {display: block; padding: 5px 5px 5px 0.5em; background-color: #2175bc;color: #fff;text-decoration: none; width: 100%;}"+
+				"html>body #related_links li a { width: auto;}"+
+				"#related_links li a:hover { background-color: #2586d7; color: #fff;}"+
+				"</style>";
+		String head="<div id='home'><div id='related_links'>" + FTP_SERVER +"<a href="+BASE_URL+"cdup>cdup</a>"+"<br/><a href=\"upload\">Charger un fichier</a><p>"+"path:"+this.ftp.pwd().substring(3)+"</p>"+"<ul>";
 		String corps="";
 		String[] ls = this.ftp.ls().split(",,");
 		for(String n : ls){
-			System.out.println(n);
 			String[] tmp=n.split(" ");
 			if(tmp.length==2 && tmp[1].equals("-dir-"))
 				corps= corps + "<li>"+"<a href="+BASE_URL+"cd/"+tmp[0]+">"+tmp[0]+"/</a>"+"</li>";
@@ -111,12 +113,12 @@ public class RequestFTPResource {
 		res += "<h1>Chargement d'un fichier</h1>";
 
 
-		res += "<form action=\"rest/api/serverFTP/uploadFile\" method=\"post\" enctype=\"multipart/form-data\">";
+		res += "<form action=\"uploadFile\" method=\"post\" enctype=\"multipart/form-data\">";
 
 		res+="<p>";
 		res+="Selectionner un fichier : <input type=\"file\" name=\"file\" size=\"45\" />";
 		res+="</p>";
-
+		res+="<input type=\"text\" name=\"name\" />";
 		res+="<input type=\"submit\" value=\"Charger\" />";
 		res+="</form>";
 
@@ -124,7 +126,7 @@ public class RequestFTPResource {
 		res+="</html>";
 		return res;
 	}
-	
+
 	@GET
 	@Produces("text/html")
 	@Path("/upload/")
@@ -133,41 +135,27 @@ public class RequestFTPResource {
 	}
 
 	@POST
+	//@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Path("/uploadFile")
-	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM)
-	public Response uploadFile(@FormParam("file") InputStream uploadedInputStream) {
-		String uploadedFileLocation = "d://uploaded/" + fileDetail.getFileName();
- 
-		// save it
-		writeToFile(uploadedInputStream, uploadedFileLocation);
- 
-		String output = "File uploaded to : " + uploadedFileLocation;
- 
-		return Response.status(200).entity(output).build();
- 
+	public String up( @FormParam("file") String fichier,
+			@FormParam("name") String name) {
+		this.ftp.stor(fichier, name);
+		return this.corps();
 	}
- 
+
 	// save uploaded file to new location
-	private void writeToFile(InputStream uploadedInputStream,
-		String uploadedFileLocation) {
- 
+
+
+	@GET
+	@Produces(javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM)
+	@Path("/get/{fichier}")
+	public String get(@PathParam("fichier") String fichier){
 		try {
-			OutputStream out = new FileOutputStream(new File(
-					uploadedFileLocation));
-			int read = 0;
-			byte[] bytes = new byte[1024];
- 
-			out = new FileOutputStream(new File(uploadedFileLocation));
-			while ((read = uploadedInputStream.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
-			}
-			out.flush();
-			out.close();
+			this.ftp.get(fichier);
 		} catch (IOException e) {
- 
 			e.printStackTrace();
 		}
- 
+		return this.corps();
 	}
 
 }
