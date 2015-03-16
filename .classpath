@@ -38,7 +38,8 @@
 	<classpathentry kind="lib" path="lib/woodstox-core-asl-4.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/wsdl4j-1.6.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlschema-core-2.0.3.jar"/>
-	<classpathentry kind="lib" path="/tmp/commons/commons-net-3.3/commons-net-3.3.jar"/>
-	<classpathentry kind="lib" path="/home/mahieddine/Documents/cours/M1S2/CAR/car-TP2/lib/commons-net/commons-net-3.3/commons-net-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net/commons-net-3.3/commons-net-3.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net/commons-net-3.3/commons-net-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net/commons-net-3.3/commons-net-examples-3.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

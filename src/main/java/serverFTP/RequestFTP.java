@@ -19,6 +19,8 @@ import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import org.apache.commons.net.ftp.FTPFile;
+
 /**
  * @author Mahieddine Yaker et Dylan Forest
  *
@@ -110,6 +112,16 @@ public class RequestFTP implements Runnable {
 			processQuit();
 			break;
 		case "NLST":
+			if(split.length == 1){
+				processList(false);
+			}else if(split.length == 2) {
+				this.action = split[1];
+				processList(true);
+			}else {
+				send("PASS <pseudo>");
+			}
+			break;
+		case "LIST":
 			if(split.length == 1){
 				processList(false);
 			}else if(split.length == 2) {
@@ -211,7 +223,8 @@ public class RequestFTP implements Runnable {
 	 */
 	private void processList(boolean test){
 		int i;
-		String[] liste={"toto"};
+		File[] liste = null;
+		String res = "";
 		if(test == true){
 			
 			liste = listerRepertoire(this.current+this.action);
@@ -222,8 +235,10 @@ public class RequestFTP implements Runnable {
 		System.out.println(liste.toString());
 		send("150 ASCII data connection");
 		for(i=0;i<liste.length;i++){
-			sendData(liste[i]);
+			//res = res + "\r\n" + liste[i].getName();
+			sendData(liste[i].getName());
 		}
+		//sendData(res);
 		send("226 ASCII Transfer complete.");
 		try {
 			this.socketData.close();
@@ -270,9 +285,10 @@ public class RequestFTP implements Runnable {
 				send("250 CWD Command successful.");
 			}else{
 				File dir = new File(this.current);
-				  
+				
 				File[] subDirs = dir.listFiles(new FileFilter() {
-				    public boolean accept(File pathname) {
+				    @Override
+					public boolean accept(File pathname) {
 				        return pathname.isDirectory();
 				    }
 				});
@@ -402,13 +418,19 @@ public class RequestFTP implements Runnable {
 	 * @param repertoire : repertoire sur lequel il faut lister les fichiers
 	 * @return String[] : tableau des elements présents dans le repertoire.
 	 */
-	private String[] listerRepertoire(String repertoire){
+	@SuppressWarnings("null")
+	private File[] listerRepertoire(String repertoire){
+		int i = 0;
 		System.out.println(repertoire);
 		File directory = new File(repertoire);
-		String[] flist = directory.list();
-		return flist;
+		File[] files = directory.listFiles();
+		for(File f : files){
+			System.out.println(f.getName());
+		}
+		return files;
 	}
 	
+	@Override
 	public void run() {
 		this.processRequest();
 	}

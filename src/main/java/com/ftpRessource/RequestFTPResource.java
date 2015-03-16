@@ -1,14 +1,11 @@
 package main.java.com.ftpRessource;
 
-import java.io.IOException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import main.java.FTPservice.FTPService;
-import main.java.serverFTP.RequestFTP;
 
 
 
@@ -23,11 +20,9 @@ public class RequestFTPResource {
 		this.ftp = new FTPService();
 	}
 
-
-
 	@GET
 	@Produces("text/html")
-	@Path("./")
+	@Path("/")
 	public String presentation(){
 		return this.corps();
 	}
@@ -75,11 +70,7 @@ public class RequestFTPResource {
 	@Produces("text/html")
 	@Path("/cd/{dossier}")
 	public String cd( @PathParam("dossier") String dossier ) {
-		try {
-			this.ftp.cd(dossier);
-		} catch (IOException e) {
-			return this.corps()+"<h4>error: dossier incorrecte</h4>";
-		}
+		this.ftp.cd(dossier);
 		return this.corps();
 	}
 

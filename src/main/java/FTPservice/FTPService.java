@@ -3,12 +3,8 @@ package main.java.FTPservice;
 import java.io.IOException;
 import java.net.Socket;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-
-
 
 
 public class FTPService {
@@ -20,8 +16,8 @@ public class FTPService {
 	public FTPService(){
 		this.client = new FTPClient();
 		try{
-			this.client.connect("ftp.univ-lille1.fr",21);
-			this.client.login("anonymous", "toto@live.fr");
+			this.client.connect("localhost",2121);
+			this.client.login("mah", "toto");
 			System.out.println("Start ok");
 		}catch(IOException e){
 			e.printStackTrace();
@@ -31,9 +27,11 @@ public class FTPService {
 		// TODO Auto-generated method stub
 		try{
 			FTPFile[] liste = this.client.listFiles();
+			System.out.println(liste.length);
 			String res = "";
 			for(int i = 0;i<liste.length;i++)
 				res = res + " "+liste[i].getName();
+			System.out.println("RES----------------------------- "+res);
 			return res;
 
 			
