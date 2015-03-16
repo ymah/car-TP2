@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-
 
 public class FTPService {
 
