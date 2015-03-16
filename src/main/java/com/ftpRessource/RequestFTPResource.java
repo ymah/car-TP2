@@ -94,7 +94,7 @@ public class RequestFTPResource {
 	 * @return String
 	 */
 	@GET
-	@Produces()
+	@Produces("text/html")
 	@Path("pwd")
 	public String pwd(){
 		return this.ftp.pwd();
@@ -119,7 +119,7 @@ public class RequestFTPResource {
 	 */
 	@GET
 	@Produces("text/html")
-	@Path("cdup")
+	@Path("/cdup/")
 	public String cdup() {
 		this.ftp.cdup();
 		return this.corps();
@@ -152,7 +152,7 @@ public class RequestFTPResource {
 	 */
 	@GET
 	@Produces("text/html")
-	@Path("upload")
+	@Path("/upload")
 	public String upload(){
 		return this.formUpload();
 	}
@@ -163,7 +163,7 @@ public class RequestFTPResource {
 	 */
 	@POST
 	//@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-	@Path("uploadFile")
+	@Path("/uploadFile")
 	public String up( @FormParam("file") String fichier,
 			@FormParam("name") String name) {
 		this.ftp.stor(fichier, name);
