@@ -44,6 +44,8 @@ public class FTPService {
 
 		}catch(IOException e){
 
+		}catch(NullPointerException e){
+			
 		}
 
 		return "NULL";
