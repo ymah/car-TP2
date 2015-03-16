@@ -34,17 +34,14 @@ public class RequestFTPResource {
 	private String corps() {
 		String head=FTP_SERVER +"<a href="+BASE_URL+"cdup>cdup</a>"+"<p>"+"path:"+this.ftp.pwd().substring(3)+"</p>"+"<ul>";
 		String corps="";
-		String[] ls = this.ftp.ls().split(",");
+		String[] ls = this.ftp.ls().split(",,");
 		for(String n : ls){
+			System.out.println(n);
 			String[] tmp=n.split(" ");
-			if(tmp.length==2){
-				if(tmp[1].equals("-d")){
-					corps= corps + "<li>"+"<a href="+BASE_URL+"cd/"+tmp[0]+">"+tmp[0]+"</a>"+"</li>";
-				}
-				else{
-					corps= corps + "<li>"+"<a href="+BASE_URL+"get/"+tmp[0]+">"+tmp[0]+"</a>"+"</li>";
-				}
-			}
+			if(tmp.length==2 && tmp[1].equals("-dir-"))
+				corps= corps + "<li>"+"<a href="+BASE_URL+"cd/"+tmp[0]+">"+tmp[0]+"</a>"+"</li>";
+			else
+				corps= corps + "<li>"+"<a href="+BASE_URL+"get/"+tmp[0]+">"+tmp[0]+"</a>"+"</li>";
 		}
 		if(corps.equals("")){
 			corps+="<li>Dossier vide</li>";
@@ -77,11 +74,20 @@ public class RequestFTPResource {
 		this.ftp.cd(dossier);
 		return this.corps();
 	}
+	@GET
+	@Produces("text/html")
+	@Path("cdup")
+	public String cdup() {
+		this.ftp.cdup();
+		return this.corps();
+	}
+
 
 	private String formUpload(){
 		String res = "<html>"; 
 		res += "<body>";	
 		res += "<h1>Chargement d'un fichier</h1>";
+
 
 		res += "<form action=\"rest/api/serverFTP/uploadFile\" method=\"post\" enctype=\"multipart/form-data\">";
 
