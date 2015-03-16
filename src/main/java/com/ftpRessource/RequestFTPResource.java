@@ -2,6 +2,7 @@ package main.java.com.ftpRessource;
 
 import java.awt.PageAttributes.MediaType;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -9,7 +10,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import main.java.FTPservice.FTPService;
-import javax.ws.rs.core.MediaType;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 
 
 @Path("/serverFTP")
@@ -112,11 +123,8 @@ public class RequestFTPResource {
 	
 	@POST
 	@Path("/uploadFile")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadFile(
-		@FormDataParam("file") InputStream uploadedInputStream,
-		@FormDataParam("file") FormDataContentDisposition fileDetail) {
- 
+	@Consumes(javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM)
+	public Response uploadFile(@FormParam("file") InputStream uploadedInputStream) {
 		String uploadedFileLocation = "d://uploaded/" + fileDetail.getFileName();
  
 		// save it
