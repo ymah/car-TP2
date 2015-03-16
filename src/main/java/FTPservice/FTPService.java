@@ -28,11 +28,9 @@ public class FTPService {
 		try{
 			
 			String[] liste = this.client.listNames();
-			System.out.println(liste.length);
 			String res = "";
 			for(int i = 0;i<liste.length;i++)
-				res = res + " "+liste[i];
-			System.out.println("RES----------------------------- "+res);
+				res = res + ",,"+liste[i];
 			return res;
 
 			
@@ -44,7 +42,6 @@ public class FTPService {
 	}
 	
 	public String pwd() {
-		// TODO Auto-generated method stub
 		try{
 			this.client.pwd();
 			return this.client.getReplyStrings()[0];
@@ -60,10 +57,16 @@ public class FTPService {
 		try {
 			this.client.cwd(dir);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println("erreur");
 		}
 
+	}
+	public void cdup() {
+		try{
+			this.client.cdup();			
+		}catch(IOException e){
+			
+		}
 	}
 
 }

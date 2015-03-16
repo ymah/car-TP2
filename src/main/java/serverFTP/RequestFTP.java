@@ -225,18 +225,17 @@ public class RequestFTP implements Runnable {
 		int i;
 		File[] liste = null;
 		String res = "";
-		if(test == true){
-			
+		if(test == true){			
 			liste = listerRepertoire(this.current+this.action);
 		}else{
-
 			liste = listerRepertoire(this.current+".");
 		}
 		System.out.println(liste.toString());
 		send("150 ASCII data connection");
 		for(i=0;i<liste.length;i++){
-			//res = res + "\r\n" + liste[i].getName();
-			sendData(liste[i].getName());
+			res = liste[i].getName();
+			res = liste[i].isDirectory() ? res + " -dir-" : res;
+			sendData(res);
 		}
 		//sendData(res);
 		send("226 ASCII Transfer complete.");
