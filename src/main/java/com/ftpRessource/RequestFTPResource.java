@@ -38,6 +38,10 @@ public class RequestFTPResource {
 		this.ftp = new FTPService();
 	}
 
+	/**
+	 * print in the browser a web page presentation
+	 * @return String
+	 */ 
 	@GET
 	@Produces("text/html")
 	@Path("/")
@@ -72,9 +76,10 @@ public class RequestFTPResource {
 		corps= corps + "</ul></div></div>";
 		return css+head+corps;
 	}
+
 	/**
-	 *  : retourne la liste des fichiers pour un compte
-	 * 
+	 * get list of files
+	 * @return String
 	 */
 	@GET
 	@Produces("text/html")
@@ -84,12 +89,23 @@ public class RequestFTPResource {
 	}
 
 
+	/**
+	 * get current directory
+	 * @return String
+	 */
 	@GET
 	@Produces()
 	@Path("pwd")
 	public String pwd(){
 		return this.ftp.pwd();
 	}
+	
+	
+	/**
+	 * go to specific directory
+	 * @param dossier
+	 * @return String
+	 */
 	@GET
 	@Produces("text/html")
 	@Path("/cd/{dossier}")
@@ -97,6 +113,10 @@ public class RequestFTPResource {
 		this.ftp.cd(dossier);
 		return this.corps();
 	}
+	/**
+	 * go to upper directory
+	 * @return String
+	 */
 	@GET
 	@Produces("text/html")
 	@Path("cdup")
@@ -126,6 +146,10 @@ public class RequestFTPResource {
 		return res;
 	}
 
+	/**
+	 * provide a form to upload file
+	 * @return String
+	 */
 	@GET
 	@Produces("text/html")
 	@Path("upload")
@@ -133,6 +157,10 @@ public class RequestFTPResource {
 		return this.formUpload();
 	}
 
+	/**
+	 * Upload a specifi file
+	 * @return String
+	 */
 	@POST
 	//@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Path("uploadFile")
@@ -146,16 +174,16 @@ public class RequestFTPResource {
 	// save uploaded file to new location
 
 
+	/**
+	 * get back a file
+	 * @param fichier
+	 * @return {@link Response}
+	 */
 	@GET
 	@Produces(javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM)
 	@Path("/get/{fichier}")
 	public Response get(@PathParam("fichier") String fichier){
-		try {
-			return javax.ws.rs.core.Response.ok(this.ftp.get(fichier), javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM).build();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return javax.ws.rs.core.Response.ok(this.ftp.get(fichier), javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM).build();
 	}
 
 }

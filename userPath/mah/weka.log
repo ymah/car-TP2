@@ -1,0 +1,21 @@
+2015-03-09 15:45:23 weka.gui.GUIChooser main
+INFO: Logging started
+---Registering Weka Editors---
+Trying to add database driver (JDBC): jdbc.idbDriver - Error, not in CLASSPATH?
+2015-03-09 15:45:31 weka.gui.explorer.Explorer <init>
+INFO: Weka Explorer
+2015-03-09 15:45:31 weka.gui.explorer.Explorer <init>
+INFO: (c) 1999-2014 The University of Waikato, Hamilton, New Zealand
+2015-03-09 15:45:31 weka.gui.explorer.Explorer <init>
+INFO: web: http://www.cs.waikato.ac.nz/~ml/weka/
+2015-03-09 15:45:31 weka.gui.explorer.Explorer <init>
+INFO: Started on lundi, 9 mars 2015
+2015-03-09 15:48:22 weka.gui.explorer.ClustererPanel$12 run
+INFO: Started weka.clusterers.EM
+2015-03-09 15:48:22 weka.gui.explorer.ClustererPanel$12 run
+INFO: Command: weka.clusterers.EM -I 100 -N -1 -M 1.0E-6 -S 100
+2015-03-09 15:48:25 weka.gui.explorer.ClustererPanel$12 run
+INFO: Finished weka.clusterers.EM
+2015-03-09 15:48:28 weka.gui.explorer.ClustererPanel$12 run
+INFO: Started weka.clusterers.EM
+2015-03-09 15:48:28 weka.gui.exp

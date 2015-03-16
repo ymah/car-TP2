@@ -27,6 +27,10 @@ public class FTPService {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Get list of files in the current directory
+	 * @return String : List of files
+	 */
 	public String ls() {
 		// TODO Auto-generated method stub
 		try{
@@ -45,6 +49,10 @@ public class FTPService {
 		return "NULL";
 	}
 
+	/**
+	 * Return the current directory
+	 * @return String 
+	 */
 	public String pwd() {
 		try{
 			this.client.pwd();
@@ -57,6 +65,10 @@ public class FTPService {
 		return "NULL";
 	}
 
+	/**
+	 * go to a specific directory
+	 * @param dir
+	 */
 	public void cd(String dir){
 		try {
 			this.client.cwd(dir);
@@ -65,6 +77,9 @@ public class FTPService {
 		}
 
 	}
+	/**
+	 * go to upper directory
+	 */
 	public void cdup() {
 		try{
 			this.client.cdup();			
@@ -72,6 +87,11 @@ public class FTPService {
 
 		}
 	}
+	/**
+	 * Stor in the FTP server the specific file
+	 * @param uploadedInputStream
+	 * @param name
+	 */
 	public void stor(String uploadedInputStream,String name) {
 		try {
 			this.client.storeFile(name,new ByteArrayInputStream(uploadedInputStream.getBytes()));
@@ -83,7 +103,13 @@ public class FTPService {
 	}
 
 
-	public InputStream get(String filename) throws IOException {
+	/**
+	 * get back a specific file
+	 * @param filename
+	 * @return InputStream
+	 * @throws IOException
+	 */
+	public InputStream get(String filename) {
 		try {
 			return this.client.retrieveFileStream(filename);
 		} catch (IOException e) {
